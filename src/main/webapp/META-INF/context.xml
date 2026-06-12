@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!--
+        Tomcatが管理するJNDI DataSource。
+        Db.javaは java:comp/env/jdbc/Pbl2026DB を参照する。
+    -->
+    <Resource
+        name="jdbc/Pbl2026DB"
+        auth="Container"
+        type="javax.sql.DataSource"
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        driverClassName="com.mysql.cj.jdbc.Driver"
+        url="jdbc:mysql://localhost:3310/pbl_2026?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Tokyo"
+        username="root"
+        password="password"
+        maxActive="10"
+        maxIdle="5"
+        minIdle="1"
+        maxWait="10000" />
+</Context>
