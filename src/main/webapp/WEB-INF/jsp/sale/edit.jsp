@@ -4,7 +4,7 @@
 <%@ include file="../common/header.jspf" %>
 <section class="panel">
     <h1>売上編集</h1>
-    <table>
+    <table class="detail-table">
         <tr><th>売上日</th><td><c:out value="${sale.saleDate}" /></td></tr>
         <tr><th>商品</th><td><c:out value="${sale.productName}" /></td></tr>
         <tr><th>数量</th><td><c:out value="${sale.quantity}" /></td></tr>

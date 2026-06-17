@@ -11,28 +11,13 @@ Apache Tomcat JspC による自動生成
 
 
     <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.login_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.login_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.search_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.search_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.confirm_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.product.confirm_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.list_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.account.list_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.form_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.form_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.dashboard_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.dashboard_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.confirm_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.confirm_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -41,13 +26,43 @@ Apache Tomcat JspC による自動生成
     </servlet>
 
     <servlet>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.form_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.account.form_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.form_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.form_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.list_jsp</servlet-name>
         <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.list_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.form_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.account.form_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.confirm_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.product.confirm_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.login_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.login_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.dashboard_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.dashboard_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.list_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.account.list_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.list_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.product.list_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -60,44 +75,14 @@ Apache Tomcat JspC による自動生成
         <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.edit_jsp</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.list_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.product.list_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.confirm_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.confirm_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
+    <servlet-mapping>
         <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.search_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.WEB_002dINF.jsp.sale.search_jsp</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.login_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/login.jsp</url-pattern>
+        <url-pattern>/WEB-INF/jsp/sale/search.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.confirm_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/product/confirm.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.list_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/account/list.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.form_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/sale/form.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.dashboard_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/dashboard.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.confirm_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/sale/confirm.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -106,13 +91,43 @@ Apache Tomcat JspC による自動生成
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.form_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/account/form.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.form_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/sale/form.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.list_jsp</servlet-name>
         <url-pattern>/WEB-INF/jsp/sale/list.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.form_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/account/form.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.confirm_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/product/confirm.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.login_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/login.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.dashboard_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/dashboard.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.account.list_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/account/list.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.list_jsp</servlet-name>
+        <url-pattern>/WEB-INF/jsp/product/list.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -123,21 +138,6 @@ Apache Tomcat JspC による自動生成
     <servlet-mapping>
         <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.edit_jsp</servlet-name>
         <url-pattern>/WEB-INF/jsp/sale/edit.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.product.list_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/product/list.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.confirm_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/sale/confirm.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.WEB_002dINF.jsp.sale.search_jsp</servlet-name>
-        <url-pattern>/WEB-INF/jsp/sale/search.jsp</url-pattern>
     </servlet-mapping>
 
 </web-app>

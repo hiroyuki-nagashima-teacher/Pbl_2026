@@ -22,10 +22,10 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   static {
     _jspx_dependants = new java.util.HashMap<java.lang.String,java.lang.Long>(4);
-    _jspx_dependants.put("/WEB-INF/jsp/common/footer.jspf", Long.valueOf(1781069970515L));
+    _jspx_dependants.put("/WEB-INF/jsp/common/footer.jspf", Long.valueOf(1781071689258L));
     _jspx_dependants.put("/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar", Long.valueOf(1768951046000L));
     _jspx_dependants.put("jar:file:/C:/pleiades/2026-03/workspace/Pbl_2026/src/main/webapp/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar!/META-INF/c.tld", Long.valueOf(1425946270000L));
-    _jspx_dependants.put("/WEB-INF/jsp/common/header.jspf", Long.valueOf(1781069970514L));
+    _jspx_dependants.put("/WEB-INF/jsp/common/header.jspf", Long.valueOf(1781081307178L));
   }
 
   private static final java.util.Set<java.lang.String> _jspx_imports_packages;
@@ -135,10 +135,10 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
       if (_jspx_meth_c_005fset_005f0(_jspx_page_context))
         return;
       out.write('\n');
-      out.write("\n\n<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>");
+      out.write("\n\n<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title>");
       if (_jspx_meth_c_005fout_005f0(_jspx_page_context))
         return;
-      out.write(" | 売上登録システム</title>\n    <link rel=\"stylesheet\" href=\"");
+      out.write(" | 売上登録システム</title>\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-64UC4BEhTGwk3eGpak4nO2jqtl7liTS+juXkSJ2gPAQPmlClQO7s5UgCeR6US48g\" crossorigin=\"anonymous\">\n    <link rel=\"stylesheet\" href=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
       out.write("/assets/css/style.css\">\n</head>\n<body>\n");
       if (_jspx_meth_c_005fif_005f0(_jspx_page_context))
@@ -147,7 +147,7 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
       if (_jspx_meth_c_005fif_005f2(_jspx_page_context))
         return;
       out.write('\n');
-      out.write("\n<section class=\"panel\">\n    <h1>売上編集</h1>\n    <table>\n        <tr><th>売上日</th><td>");
+      out.write("\n<section class=\"panel\">\n    <h1>売上編集</h1>\n    <table class=\"detail-table\">\n        <tr><th>売上日</th><td>");
       if (_jspx_meth_c_005fout_005f3(_jspx_page_context))
         return;
       out.write("</td></tr>\n        <tr><th>商品</th><td>");
@@ -178,7 +178,7 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n        </div>\n        <div class=\"actions\">\n            <button type=\"submit\">保存</button>\n            <a class=\"button secondary\" href=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
       out.write("/sales\">戻る</a>\n        </div>\n    </form>\n</section>\n");
-      out.write("</main>\n</body>\n</html>\n");
+      out.write("</main>\n<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-jdSIJTK9l6XwXj3RixpVDXtMcA2bFd9O81RlLAwhpr2oXRqvQP88rr16IeFXTgFE\" crossorigin=\"anonymous\"></script>\n</body>\n</html>\n");
       out.write('\n');
     } catch (java.lang.Throwable t) {
       if (!(t instanceof javax.servlet.jsp.SkipPageException)){
@@ -231,7 +231,7 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       _jspx_th_c_005fout_005f0.setPageContext(_jspx_page_context);
       _jspx_th_c_005fout_005f0.setParent(null);
-      // /WEB-INF/jsp/common/header.jspf(7,11) name = value type = null reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+      // /WEB-INF/jsp/common/header.jspf(8,11) name = value type = null reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
       _jspx_th_c_005fout_005f0.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageTitle}", java.lang.Object.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
       int _jspx_eval_c_005fout_005f0 = _jspx_th_c_005fout_005f0.doStartTag();
       if (_jspx_th_c_005fout_005f0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
@@ -252,26 +252,26 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       _jspx_th_c_005fif_005f0.setPageContext(_jspx_page_context);
       _jspx_th_c_005fif_005f0.setParent(null);
-      // /WEB-INF/jsp/common/header.jspf(11,0) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+      // /WEB-INF/jsp/common/header.jspf(13,0) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
       _jspx_th_c_005fif_005f0.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${not empty sessionScope.loginAccount}", boolean.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null)).booleanValue());
       int _jspx_eval_c_005fif_005f0 = _jspx_th_c_005fif_005f0.doStartTag();
       if (_jspx_eval_c_005fif_005f0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
-          out.write("\n<header class=\"app-header\">\n    <div class=\"app-title\">売上登録システム</div>\n    <nav class=\"nav\">\n        <a href=\"");
+          out.write("\n<header class=\"app-header\">\n    <div class=\"app-title\">売上登録システム</div>\n    <nav class=\"nav\">\n        <div class=\"nav-main\">\n            <a href=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
-          out.write("/dashboard\">ダッシュボード</a>\n        <a href=\"");
+          out.write("/dashboard\">ダッシュボード</a>\n            <a href=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
-          out.write("/products\">商品</a>\n        <a href=\"");
+          out.write("/products\">商品</a>\n            <a href=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
-          out.write("/sales/search\">売上検索</a>\n        ");
+          out.write("/sales\">売上</a>\n            ");
           if (_jspx_meth_c_005fif_005f1(_jspx_th_c_005fif_005f0, _jspx_page_context))
             return true;
-          out.write("\n        <span class=\"user\">");
+          out.write("\n        </div>\n        <div class=\"nav-account\">\n            <span class=\"user\">");
           if (_jspx_meth_c_005fout_005f1(_jspx_th_c_005fif_005f0, _jspx_page_context))
             return true;
-          out.write("</span>\n        <a href=\"");
+          out.write("</span>\n            <a href=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
-          out.write("/logout\">ログアウト</a>\n    </nav>\n</header>\n");
+          out.write("/logout\">ログアウト</a>\n        </div>\n    </nav>\n</header>\n");
           int evalDoAfterBody = _jspx_th_c_005fif_005f0.doAfterBody();
           if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
             break;
@@ -295,14 +295,14 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       _jspx_th_c_005fif_005f1.setPageContext(_jspx_page_context);
       _jspx_th_c_005fif_005f1.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_005fif_005f0);
-      // /WEB-INF/jsp/common/header.jspf(18,8) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+      // /WEB-INF/jsp/common/header.jspf(21,12) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
       _jspx_th_c_005fif_005f1.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.loginAccount.manager}", boolean.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null)).booleanValue());
       int _jspx_eval_c_005fif_005f1 = _jspx_th_c_005fif_005f1.doStartTag();
       if (_jspx_eval_c_005fif_005f1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
         do {
-          out.write("\n            <a href=\"");
+          out.write("\n                <a href=\"");
           out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${pageContext.request.contextPath}", java.lang.String.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
-          out.write("/accounts\">アカウント</a>\n        ");
+          out.write("/accounts\">アカウント</a>\n            ");
           int evalDoAfterBody = _jspx_th_c_005fif_005f1.doAfterBody();
           if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
             break;
@@ -326,7 +326,7 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       _jspx_th_c_005fout_005f1.setPageContext(_jspx_page_context);
       _jspx_th_c_005fout_005f1.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_005fif_005f0);
-      // /WEB-INF/jsp/common/header.jspf(21,27) name = value type = null reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+      // /WEB-INF/jsp/common/header.jspf(26,31) name = value type = null reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
       _jspx_th_c_005fout_005f1.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${sessionScope.loginAccount.staffName}", java.lang.Object.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
       int _jspx_eval_c_005fout_005f1 = _jspx_th_c_005fout_005f1.doStartTag();
       if (_jspx_th_c_005fout_005f1.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
@@ -347,7 +347,7 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       _jspx_th_c_005fif_005f2.setPageContext(_jspx_page_context);
       _jspx_th_c_005fif_005f2.setParent(null);
-      // /WEB-INF/jsp/common/header.jspf(27,0) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+      // /WEB-INF/jsp/common/header.jspf(33,0) name = test type = boolean reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
       _jspx_th_c_005fif_005f2.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${not empty flash}", boolean.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null)).booleanValue());
       int _jspx_eval_c_005fif_005f2 = _jspx_th_c_005fif_005f2.doStartTag();
       if (_jspx_eval_c_005fif_005f2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
@@ -379,7 +379,7 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
     try {
       _jspx_th_c_005fout_005f2.setPageContext(_jspx_page_context);
       _jspx_th_c_005fout_005f2.setParent((javax.servlet.jsp.tagext.Tag) _jspx_th_c_005fif_005f2);
-      // /WEB-INF/jsp/common/header.jspf(28,25) name = value type = null reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
+      // /WEB-INF/jsp/common/header.jspf(34,25) name = value type = null reqTime = true required = true fragment = false deferredValue = false expectedTypeName = null deferredMethod = false methodSignature = null
       _jspx_th_c_005fout_005f2.setValue((java.lang.Object) org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate("${flash}", java.lang.Object.class, (javax.servlet.jsp.PageContext)_jspx_page_context, null));
       int _jspx_eval_c_005fout_005f2 = _jspx_th_c_005fout_005f2.doStartTag();
       if (_jspx_th_c_005fout_005f2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
