@@ -211,6 +211,7 @@ h1 {
 }
 
 .button:hover, button:hover {
+    color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
     filter: brightness(1.15);
