@@ -19,7 +19,7 @@ import jp.co.pbl2026.sales.model.Product;
 import jp.co.pbl2026.sales.util.AuthUtil;
 import jp.co.pbl2026.sales.util.ForbiddenException;
 
-@WebServlet(urlPatterns = {"/products", "/products/new", "/products/confirm",
+@WebServlet(urlPatterns = {"/products", "/products/csv", "/products/new", "/products/confirm",
         "/products/create", "/products/edit", "/products/delete"})
 public class ProductServlet extends BaseServlet {
     private static final long serialVersionUID = 1L;
@@ -34,6 +34,8 @@ public class ProductServlet extends BaseServlet {
         if ("/products".equals(path)) {
             req.setAttribute("products", productDao.findAllActive());
             forward(req, res, "product/list.jsp");
+        } else if ("/products/csv".equals(path)) {
+            exportCsv(req, res);
         } else if ("/products/new".equals(path)) {
             AuthUtil.requireManager(req);
             showForm(req, res, new Product(), errors(), false);
@@ -157,5 +159,32 @@ public class ProductServlet extends BaseServlet {
                 .map(c -> c.getName())
                 .findFirst()
                 .orElse("");
+    }
+
+    private void exportCsv(HttpServletRequest req, HttpServletResponse res)
+            throws SQLException, IOException {
+        java.util.List<Product> products = productDao.findAllActive();
+
+        res.setContentType("text/csv; charset=UTF-8");
+        res.setHeader("Content-Disposition", "attachment; filename=\"products_" + System.currentTimeMillis() + ".csv\"");
+
+        try (java.io.OutputStream os = res.getOutputStream()) {
+            os.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+            
+            java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.OutputStreamWriter(os, java.nio.charset.StandardCharsets.UTF_8));
+            writer.println("商品ID,カテゴリーID,カテゴリー名,商品名,価格,販売状況");
+            
+            for (Product product : products) {
+                writer.printf("%d,%d,\"%s\",\"%s\",%d,\"%s\"\n",
+                    product.getId(),
+                    product.getCategoryId(),
+                    categoryName(product.getCategoryId()).replace("\"", "\"\""),
+                    product.getName().replace("\"", "\"\""),
+                    product.getPrice(),
+                    product.isOnSale() ? "販売中" : "販売停止"
+                );
+            }
+            writer.flush();
+        }
     }
 }

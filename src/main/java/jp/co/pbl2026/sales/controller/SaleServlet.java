@@ -25,7 +25,7 @@ import jp.co.pbl2026.sales.model.SaleSearchCondition;
 import jp.co.pbl2026.sales.util.AuthUtil;
 import jp.co.pbl2026.sales.util.ForbiddenException;
 
-@WebServlet(urlPatterns = {"/sales/search", "/sales", "/sales/new", "/sales/confirm",
+@WebServlet(urlPatterns = {"/sales/search", "/sales", "/sales/csv", "/sales/new", "/sales/confirm",
         "/sales/create", "/sales/edit", "/sales/delete"})
 public class SaleServlet extends BaseServlet {
     private static final long serialVersionUID = 1L;
@@ -42,6 +42,8 @@ public class SaleServlet extends BaseServlet {
             showSearch(req, res);
         } else if ("/sales".equals(path)) {
             search(req, res);
+        } else if ("/sales/csv".equals(path)) {
+            exportCsv(req, res);
         } else if ("/sales/new".equals(path)) {
             showForm(req, res, new Sale(), errors());
         } else if ("/sales/edit".equals(path)) {
@@ -120,9 +122,18 @@ public class SaleServlet extends BaseServlet {
         Product product = productDao.findSellableById(sale.getProductId()).orElseThrow(ForbiddenException::new);
         Account current = AuthUtil.currentAccount(req);
         sale.setUnitPrice(product.getPrice());
+        sale.setProductName(product.getName());
         sale.setRegisteredAccountId(current.getId());
         sale.setLastUpdatedAccountId(current.getId());
         saleDao.insert(sale);
+        
+        // 模擬メール通知
+        try {
+            jp.co.pbl2026.sales.util.MailUtil.sendSaleNotification(sale, current.getStaffName());
+        } catch (Exception e) {
+            System.err.println("模擬メール送信に失敗しました: " + e.getMessage());
+        }
+
         AuthUtil.flash(req, "売上を追加しました。");
         redirect(req, res, "/sales");
     }
@@ -176,6 +187,11 @@ public class SaleServlet extends BaseServlet {
         condition.setStaffName(trim(req.getParameter("staffName")));
         condition.setAmountFrom(parseInteger(req.getParameter("amountFrom"), "amountFrom", errors));
         condition.setAmountTo(parseInteger(req.getParameter("amountTo"), "amountTo", errors));
+        
+        Map<String, String> dummyErrors = errors();
+        condition.setProductId(parseInteger(req.getParameter("productId"), "productId", dummyErrors));
+        condition.setSortBy(trim(req.getParameter("sortBy")));
+        condition.setOrder(trim(req.getParameter("order")));
         return condition;
     }
 
@@ -183,6 +199,7 @@ public class SaleServlet extends BaseServlet {
             throws SQLException, ServletException, IOException {
         // スタッフ名は入力ミスを避けられるよう、現在有効なアカウントから選択肢を作る。
         req.setAttribute("accounts", accountDao.findAllActive());
+        req.setAttribute("products", productDao.findAllActive());
         if (req.getAttribute("condition") == null) {
             req.setAttribute("condition", new SaleSearchCondition());
         }
@@ -228,6 +245,39 @@ public class SaleServlet extends BaseServlet {
         Account current = AuthUtil.currentAccount(req);
         if (!current.isManager() && sale.getRegisteredAccountId() != current.getId()) {
             throw new ForbiddenException();
+        }
+    }
+
+    private void exportCsv(HttpServletRequest req, HttpServletResponse res)
+            throws SQLException, IOException {
+        Map<String, String> errors = errors();
+        SaleSearchCondition condition = searchConditionFromRequest(req, errors);
+        java.util.List<Sale> sales = saleDao.search(condition);
+
+        res.setContentType("text/csv; charset=UTF-8");
+        res.setHeader("Content-Disposition", "attachment; filename=\"sales_" + System.currentTimeMillis() + ".csv\"");
+
+        try (java.io.OutputStream os = res.getOutputStream()) {
+            // Excelで文字化けしないようにUTF-8のBOMを出力
+            os.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+            
+            java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.OutputStreamWriter(os, java.nio.charset.StandardCharsets.UTF_8));
+            writer.println("売上ID,売上日,商品ID,商品名,数量,単価,合計金額,メモ,登録スタッフ名");
+            
+            for (Sale sale : sales) {
+                writer.printf("%d,%s,%d,\"%s\",%d,%d,%d,\"%s\",\"%s\"\n",
+                    sale.getId(),
+                    sale.getSaleDate(),
+                    sale.getProductId(),
+                    sale.getProductName().replace("\"", "\"\""),
+                    sale.getQuantity(),
+                    sale.getUnitPrice(),
+                    sale.getTotalAmount(),
+                    (sale.getMemo() != null ? sale.getMemo().replace("\"", "\"\"") : ""),
+                    sale.getRegisteredStaffName().replace("\"", "\"\"")
+                );
+            }
+            writer.flush();
         }
     }
 }

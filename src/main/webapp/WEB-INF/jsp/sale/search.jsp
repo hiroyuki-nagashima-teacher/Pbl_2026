@@ -15,6 +15,17 @@
             <input id="dateTo" type="date" name="dateTo" value="${condition.dateTo}">
         </div>
         <div>
+            <label for="productId">商品</label>
+            <select id="productId" name="productId">
+                <option value="">すべての商品</option>
+                <c:forEach var="prod" items="${products}">
+                    <option value="${prod.id}" ${condition.productId == prod.id ? 'selected' : ''}>
+                        <c:out value="${prod.name}" /> (¥<c:out value="${prod.price}" />)
+                    </option>
+                </c:forEach>
+            </select>
+        </div>
+        <div>
             <label for="staffName">スタッフ名</label>
             <input id="staffName" name="staffName" value="<c:out value='${condition.staffName}' />" placeholder="スタッフ名を入力" autocomplete="off" data-staff-input>
         </div>

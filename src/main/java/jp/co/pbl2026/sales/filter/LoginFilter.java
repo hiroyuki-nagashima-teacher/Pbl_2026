@@ -31,4 +31,10 @@ public class LoginFilter implements Filter {
         }
         res.sendRedirect(req.getContextPath() + "/login");
     }
+
+    @Override
+    public void init(javax.servlet.FilterConfig filterConfig) throws javax.servlet.ServletException {}
+
+    @Override
+    public void destroy() {}
 }

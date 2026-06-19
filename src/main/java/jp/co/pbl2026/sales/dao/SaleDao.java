@@ -41,7 +41,27 @@ public class SaleDao {
             sql.append(" AND (s.unit_price * s.quantity) <= ?");
             params.add(condition.getAmountTo());
         }
-        sql.append(" ORDER BY s.sale_date DESC, s.sales_id DESC");
+        if (condition.getProductId() != null && condition.getProductId() > 0) {
+            sql.append(" AND s.product_id = ?");
+            params.add(condition.getProductId());
+        }
+
+        String sortColumn = "s.sale_date";
+        if ("product_name".equals(condition.getSortBy())) {
+            sortColumn = "p.product_name";
+        } else if ("quantity".equals(condition.getSortBy())) {
+            sortColumn = "s.quantity";
+        } else if ("amount".equals(condition.getSortBy())) {
+            sortColumn = "(s.unit_price * s.quantity)";
+        } else if ("staff_name".equals(condition.getSortBy())) {
+            sortColumn = "a.staff_name";
+        }
+
+        String sortOrder = "DESC";
+        if ("asc".equalsIgnoreCase(condition.getOrder())) {
+            sortOrder = "ASC";
+        }
+        sql.append(" ORDER BY ").append(sortColumn).append(" ").append(sortOrder).append(", s.sales_id DESC");
 
         List<Sale> sales = new ArrayList<>();
         try (Connection con = Db.getConnection(); PreparedStatement ps = con.prepareStatement(sql.toString())) {
@@ -102,6 +122,49 @@ public class SaleDao {
             ps.setInt(2, id);
             ps.executeUpdate();
         }
+    }
+
+    public int getTodaySalesAmount() throws SQLException {
+        String sql = "SELECT COALESCE(SUM(quantity * unit_price), 0) FROM sales_transaction "
+                + "WHERE sale_date = CURDATE() AND deleted = false";
+        try (Connection con = Db.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            rs.next();
+            return rs.getInt(1);
+        }
+    }
+
+    public int getMonthSalesAmount() throws SQLException {
+        String sql = "SELECT COALESCE(SUM(quantity * unit_price), 0) FROM sales_transaction "
+                + "WHERE sale_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01') AND deleted = false";
+        try (Connection con = Db.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            rs.next();
+            return rs.getInt(1);
+        }
+    }
+
+    public List<Sale> getRecent7DaysSales() throws SQLException {
+        String sql = "SELECT sale_date, SUM(quantity * unit_price) AS daily_amount "
+                + "FROM sales_transaction "
+                + "WHERE sale_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) AND deleted = false "
+                + "GROUP BY sale_date "
+                + "ORDER BY sale_date ASC";
+        List<Sale> sales = new ArrayList<>();
+        try (Connection con = Db.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Sale s = new Sale();
+                s.setSaleDate(rs.getDate("sale_date").toLocalDate());
+                s.setUnitPrice(rs.getInt("daily_amount"));
+                s.setQuantity(1); // quantity * unitPrice = daily_amount
+                sales.add(s);
+            }
+        }
+        return sales;
     }
 
     private void bind(PreparedStatement ps, List<Object> params) throws SQLException {
