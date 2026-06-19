@@ -32,7 +32,11 @@ public class ProductServlet extends BaseServlet {
             throws SQLException, ServletException, IOException {
         String path = req.getServletPath();
         if ("/products".equals(path)) {
-            req.setAttribute("products", productDao.findAllActive());
+            String sortBy = req.getParameter("sortBy");
+            String order = req.getParameter("order");
+            req.setAttribute("products", productDao.findAllActive(sortBy, order));
+            req.setAttribute("sortBy", sortBy);
+            req.setAttribute("order", order);
             forward(req, res, "product/list.jsp");
         } else if ("/products/csv".equals(path)) {
             exportCsv(req, res);

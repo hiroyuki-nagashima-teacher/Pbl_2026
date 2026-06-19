@@ -12,9 +12,33 @@ import jp.co.pbl2026.sales.model.Product;
 
 public class ProductDao {
     public List<Product> findAllActive() throws SQLException {
+        return findAllActive(null, null);
+    }
+
+    public List<Product> findAllActive(String sortBy, String order) throws SQLException {
+        String sortColumn = "p.product_id";
+        if ("product_name".equals(sortBy)) {
+            sortColumn = "p.product_name";
+        } else if ("category_name".equals(sortBy)) {
+            sortColumn = "c.category_name";
+        } else if ("price".equals(sortBy)) {
+            sortColumn = "p.price";
+        } else if ("on_sale".equals(sortBy)) {
+            sortColumn = "p.on_sale";
+        } else if ("updated_at".equals(sortBy)) {
+            sortColumn = "p.updated_at";
+        }
+
+        String sortOrder = "ASC";
+        if ("desc".equalsIgnoreCase(order)) {
+            sortOrder = "DESC";
+        }
+
         String sql = "SELECT p.*, c.category_name FROM product_master p "
                 + "JOIN category_master c ON p.category_id = c.category_id "
-                + "WHERE p.deleted = false ORDER BY p.product_id";
+                + "WHERE p.deleted = false "
+                + "ORDER BY " + sortColumn + " " + sortOrder + ", p.product_id ASC";
+        
         List<Product> products = new ArrayList<>();
         try (Connection con = Db.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql);

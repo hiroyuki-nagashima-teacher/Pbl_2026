@@ -20,8 +20,63 @@
     <div class="table-container">
         <table>
             <thead>
+                <c:set var="nextOrder" value="${order == 'asc' ? 'desc' : 'asc'}" />
                 <tr>
-                    <th>ID</th><th>商品名</th><th>カテゴリー</th><th>価格</th><th>販売状態</th><th>更新日時</th><th>操作</th>
+                    <th>
+                        <a href="${pageContext.request.contextPath}/products?sortBy=product_id&order=${sortBy == 'product_id' ? nextOrder : 'asc'}">
+                            ID <c:choose>
+                                <c:when test="${sortBy == 'product_id' && order == 'asc'}">▲</c:when>
+                                <c:when test="${sortBy == 'product_id' && order == 'desc'}">▼</c:when>
+                                <c:otherwise>↕</c:otherwise>
+                            </c:choose>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="${pageContext.request.contextPath}/products?sortBy=product_name&order=${sortBy == 'product_name' ? nextOrder : 'asc'}">
+                            商品名 <c:choose>
+                                <c:when test="${sortBy == 'product_name' && order == 'asc'}">▲</c:when>
+                                <c:when test="${sortBy == 'product_name' && order == 'desc'}">▼</c:when>
+                                <c:otherwise>↕</c:otherwise>
+                            </c:choose>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="${pageContext.request.contextPath}/products?sortBy=category_name&order=${sortBy == 'category_name' ? nextOrder : 'asc'}">
+                            カテゴリー <c:choose>
+                                <c:when test="${sortBy == 'category_name' && order == 'asc'}">▲</c:when>
+                                <c:when test="${sortBy == 'category_name' && order == 'desc'}">▼</c:when>
+                                <c:otherwise>↕</c:otherwise>
+                            </c:choose>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="${pageContext.request.contextPath}/products?sortBy=price&order=${sortBy == 'price' ? nextOrder : 'asc'}">
+                            価格 <c:choose>
+                                <c:when test="${sortBy == 'price' && order == 'asc'}">▲</c:when>
+                                <c:when test="${sortBy == 'price' && order == 'desc'}">▼</c:when>
+                                <c:otherwise>↕</c:otherwise>
+                            </c:choose>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="${pageContext.request.contextPath}/products?sortBy=on_sale&order=${sortBy == 'on_sale' ? nextOrder : 'asc'}">
+                            販売状態 <c:choose>
+                                <c:when test="${sortBy == 'on_sale' && order == 'asc'}">▲</c:when>
+                                <c:when test="${sortBy == 'on_sale' && order == 'desc'}">▼</c:when>
+                                <c:otherwise>↕</c:otherwise>
+                            </c:choose>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="${pageContext.request.contextPath}/products?sortBy=updated_at&order=${sortBy == 'updated_at' ? nextOrder : 'asc'}">
+                            更新日時 <c:choose>
+                                <c:when test="${sortBy == 'updated_at' && order == 'asc'}">▲</c:when>
+                                <c:when test="${sortBy == 'updated_at' && order == 'desc'}">▼</c:when>
+                                <c:otherwise>↕</c:otherwise>
+                            </c:choose>
+                        </a>
+                    </th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
