@@ -204,4 +204,116 @@ public class SaleDao {
         s.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         return s;
     }
+
+    public int count(SaleSearchCondition condition) throws SQLException {
+        StringBuilder sql = new StringBuilder(
+                "SELECT COUNT(*) FROM sales_transaction s "
+                + "JOIN product_master p ON s.product_id = p.product_id "
+                + "JOIN account a ON s.registered_account_id = a.account_id "
+                + "WHERE s.deleted = false");
+        List<Object> params = new ArrayList<>();
+
+        if (condition.getDateFrom() != null) {
+            sql.append(" AND s.sale_date >= ?");
+            params.add(Date.valueOf(condition.getDateFrom()));
+        }
+        if (condition.getDateTo() != null) {
+            sql.append(" AND s.sale_date <= ?");
+            params.add(Date.valueOf(condition.getDateTo()));
+        }
+        if (condition.getStaffName() != null && !condition.getStaffName().isBlank()) {
+            sql.append(" AND a.staff_name LIKE ?");
+            params.add("%" + condition.getStaffName() + "%");
+        }
+        if (condition.getAmountFrom() != null) {
+            sql.append(" AND (s.unit_price * s.quantity) >= ?");
+            params.add(condition.getAmountFrom());
+        }
+        if (condition.getAmountTo() != null) {
+            sql.append(" AND (s.unit_price * s.quantity) <= ?");
+            params.add(condition.getAmountTo());
+        }
+        if (condition.getProductId() != null && condition.getProductId() > 0) {
+            sql.append(" AND s.product_id = ?");
+            params.add(condition.getProductId());
+        }
+
+        try (Connection con = Db.getConnection(); PreparedStatement ps = con.prepareStatement(sql.toString())) {
+            bind(ps, params);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
+
+    public List<Sale> search(SaleSearchCondition condition, int page, int pageSize) throws SQLException {
+        StringBuilder sql = new StringBuilder(
+                "SELECT s.*, p.product_name, a.staff_name FROM sales_transaction s "
+                + "JOIN product_master p ON s.product_id = p.product_id "
+                + "JOIN account a ON s.registered_account_id = a.account_id "
+                + "WHERE s.deleted = false");
+        List<Object> params = new ArrayList<>();
+
+        if (condition.getDateFrom() != null) {
+            sql.append(" AND s.sale_date >= ?");
+            params.add(Date.valueOf(condition.getDateFrom()));
+        }
+        if (condition.getDateTo() != null) {
+            sql.append(" AND s.sale_date <= ?");
+            params.add(Date.valueOf(condition.getDateTo()));
+        }
+        if (condition.getStaffName() != null && !condition.getStaffName().isBlank()) {
+            sql.append(" AND a.staff_name LIKE ?");
+            params.add("%" + condition.getStaffName() + "%");
+        }
+        if (condition.getAmountFrom() != null) {
+            sql.append(" AND (s.unit_price * s.quantity) >= ?");
+            params.add(condition.getAmountFrom());
+        }
+        if (condition.getAmountTo() != null) {
+            sql.append(" AND (s.unit_price * s.quantity) <= ?");
+            params.add(condition.getAmountTo());
+        }
+        if (condition.getProductId() != null && condition.getProductId() > 0) {
+            sql.append(" AND s.product_id = ?");
+            params.add(condition.getProductId());
+        }
+
+        String sortColumn = "s.sale_date";
+        if ("product_name".equals(condition.getSortBy())) {
+            sortColumn = "p.product_name";
+        } else if ("quantity".equals(condition.getSortBy())) {
+            sortColumn = "s.quantity";
+        } else if ("amount".equals(condition.getSortBy())) {
+            sortColumn = "(s.unit_price * s.quantity)";
+        } else if ("staff_name".equals(condition.getSortBy())) {
+            sortColumn = "a.staff_name";
+        }
+
+        String sortOrder = "DESC";
+        if ("asc".equalsIgnoreCase(condition.getOrder())) {
+            sortOrder = "ASC";
+        }
+        sql.append(" ORDER BY ").append(sortColumn).append(" ").append(sortOrder).append(", s.sales_id DESC");
+        
+        sql.append(" LIMIT ? OFFSET ?");
+        int offset = (page - 1) * pageSize;
+        params.add(pageSize);
+        params.add(offset);
+
+        List<Sale> sales = new ArrayList<>();
+        try (Connection con = Db.getConnection(); PreparedStatement ps = con.prepareStatement(sql.toString())) {
+            bind(ps, params);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    sales.add(map(rs));
+                }
+            }
+        }
+        return sales;
+    }
 }
+

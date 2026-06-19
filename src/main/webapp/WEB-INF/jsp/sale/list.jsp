@@ -5,12 +5,12 @@
 <%@ include file="../common/header.jspf" %>
 
 <%
-    // クエリパラメータの再構築用（sortBy, order を除外して他の検索条件を引き継ぐ）
+    // クエリパラメータの再構築用（page, sortBy, order を除外して他の検索条件を引き継ぐ）
     StringBuilder sb = new StringBuilder();
     java.util.Map<String, String[]> params = request.getParameterMap();
     for (java.util.Map.Entry<String, String[]> entry : params.entrySet()) {
         String key = entry.getKey();
-        if (!"sortBy".equals(key) && !"order".equals(key)) {
+        if (!"sortBy".equals(key) && !"order".equals(key) && !"page".equals(key)) {
             for (String val : entry.getValue()) {
                 if (sb.length() > 0) sb.append("&");
                 sb.append(java.net.URLEncoder.encode(key, "UTF-8"))
@@ -115,5 +115,39 @@
             </tbody>
         </table>
     </div>
+
+    <!-- ページネーション UI -->
+    <c:if test="${totalPages > 1}">
+        <div class="pagination">
+            <c:if test="${currentPage > 1}">
+                <a class="page-link" href="${pageContext.request.contextPath}/sales?${baseQuery}sortBy=${condition.sortBy}&order=${condition.order}&page=${currentPage - 1}">&laquo; 前へ</a>
+            </c:if>
+            
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <c:choose>
+                    <c:when test="${i == 1 || i == totalPages || (i >= currentPage - 2 && i <= currentPage + 2)}">
+                        <c:choose>
+                            <c:when test="${i == currentPage}">
+                                <span class="page-item active">${i}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="page-link" href="${pageContext.request.contextPath}/sales?${baseQuery}sortBy=${condition.sortBy}&order=${condition.order}&page=${i}">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:when>
+                    <c:when test="${i == currentPage - 3 || i == currentPage + 3}">
+                        <span class="page-ellipsis">...</span>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+            
+            <c:if test="${currentPage < totalPages}">
+                <a class="page-link" href="${pageContext.request.contextPath}/sales?${baseQuery}sortBy=${condition.sortBy}&order=${condition.order}&page=${currentPage + 1}">次へ &raquo;</a>
+            </c:if>
+        </div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 8px;">
+            全 ${totalCount} 件中 ${currentPage} / ${totalPages} ページを表示
+        </div>
+    </c:if>
 </section>
 <%@ include file="../common/footer.jspf" %>

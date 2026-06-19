@@ -34,7 +34,34 @@ public class ProductServlet extends BaseServlet {
         if ("/products".equals(path)) {
             String sortBy = req.getParameter("sortBy");
             String order = req.getParameter("order");
-            req.setAttribute("products", productDao.findAllActive(sortBy, order));
+            
+            int page = 1;
+            String pageParam = req.getParameter("page");
+            if (pageParam != null && !pageParam.isBlank()) {
+                try {
+                    page = Integer.parseInt(pageParam);
+                    if (page < 1) {
+                        page = 1;
+                    }
+                } catch (NumberFormatException e) {
+                    page = 1;
+                }
+            }
+            
+            int pageSize = 100;
+            int totalCount = productDao.countAllActive();
+            int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+            if (totalPages < 1) {
+                totalPages = 1;
+            }
+            if (page > totalPages) {
+                page = totalPages;
+            }
+            
+            req.setAttribute("products", productDao.findAllActive(sortBy, order, page, pageSize));
+            req.setAttribute("currentPage", page);
+            req.setAttribute("totalPages", totalPages);
+            req.setAttribute("totalCount", totalCount);
             req.setAttribute("sortBy", sortBy);
             req.setAttribute("order", order);
             forward(req, res, "product/list.jsp");

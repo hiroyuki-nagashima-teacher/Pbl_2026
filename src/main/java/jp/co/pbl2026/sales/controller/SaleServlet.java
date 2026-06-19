@@ -84,8 +84,35 @@ public class SaleServlet extends BaseServlet {
             showSearch(req, res);
             return;
         }
+        
+        int page = 1;
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && !pageParam.isBlank()) {
+            try {
+                page = Integer.parseInt(pageParam);
+                if (page < 1) {
+                    page = 1;
+                }
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+        
+        int pageSize = 100;
+        int totalCount = saleDao.count(condition);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        if (totalPages < 1) {
+            totalPages = 1;
+        }
+        if (page > totalPages) {
+            page = totalPages;
+        }
+        
         req.setAttribute("condition", condition);
-        req.setAttribute("sales", saleDao.search(condition));
+        req.setAttribute("sales", saleDao.search(condition, page, pageSize));
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalCount", totalCount);
         forward(req, res, "sale/list.jsp");
     }
 

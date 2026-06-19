@@ -505,3 +505,52 @@ tbody tr:hover {
         padding: 10px 12px;
     }
 }
+
+/* Pagination styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 24px 0 8px;
+}
+
+.pagination .page-link,
+.pagination .page-item,
+.pagination .page-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 6px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.pagination .page-link {
+    background: var(--surface-opaque);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    box-shadow: var(--shadow-sm);
+}
+
+.pagination .page-link:hover {
+    color: var(--primary);
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.05);
+    transform: translateY(-1px);
+}
+
+.pagination .page-item.active {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
+}
+
+.pagination .page-ellipsis {
+    color: var(--text-muted);
+    border: 1px solid transparent;
+}
