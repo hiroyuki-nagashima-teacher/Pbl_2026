@@ -254,27 +254,32 @@ public class SaleServlet extends BaseServlet {
         SaleSearchCondition condition = searchConditionFromRequest(req, errors);
         java.util.List<Sale> sales = saleDao.search(condition);
 
+        String filename = "sales_" + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + ".csv";
         res.setContentType("text/csv; charset=UTF-8");
-        res.setHeader("Content-Disposition", "attachment; filename=\"sales_" + System.currentTimeMillis() + ".csv\"");
+        res.setHeader("Content-Disposition", "attachment; filename=" + filename);
 
-        try (java.io.OutputStream os = res.getOutputStream()) {
-            // Excelで文字化けしないようにUTF-8のBOMを出力
-            os.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+        try (java.io.OutputStream os = res.getOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(os, java.nio.charset.StandardCharsets.UTF_8);
+             java.io.PrintWriter writer = new java.io.PrintWriter(osw)) {
             
-            java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.OutputStreamWriter(os, java.nio.charset.StandardCharsets.UTF_8));
+            os.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+            os.flush();
+            
             writer.println("売上ID,売上日,商品ID,商品名,数量,単価,合計金額,メモ,登録スタッフ名");
             
             for (Sale sale : sales) {
+                String prodName = sale.getProductName();
+                String staffName = sale.getRegisteredStaffName();
                 writer.printf("%d,%s,%d,\"%s\",%d,%d,%d,\"%s\",\"%s\"\n",
                     sale.getId(),
                     sale.getSaleDate(),
                     sale.getProductId(),
-                    sale.getProductName().replace("\"", "\"\""),
+                    (prodName != null ? prodName.replace("\"", "\"\"") : ""),
                     sale.getQuantity(),
                     sale.getUnitPrice(),
                     sale.getTotalAmount(),
                     (sale.getMemo() != null ? sale.getMemo().replace("\"", "\"\"") : ""),
-                    sale.getRegisteredStaffName().replace("\"", "\"\"")
+                    (staffName != null ? staffName.replace("\"", "\"\"") : "")
                 );
             }
             writer.flush();

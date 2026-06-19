@@ -165,21 +165,27 @@ public class ProductServlet extends BaseServlet {
             throws SQLException, IOException {
         java.util.List<Product> products = productDao.findAllActive();
 
+        String filename = "products_" + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + ".csv";
         res.setContentType("text/csv; charset=UTF-8");
-        res.setHeader("Content-Disposition", "attachment; filename=\"products_" + System.currentTimeMillis() + ".csv\"");
+        res.setHeader("Content-Disposition", "attachment; filename=" + filename);
 
-        try (java.io.OutputStream os = res.getOutputStream()) {
-            os.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+        try (java.io.OutputStream os = res.getOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(os, java.nio.charset.StandardCharsets.UTF_8);
+             java.io.PrintWriter writer = new java.io.PrintWriter(osw)) {
             
-            java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.OutputStreamWriter(os, java.nio.charset.StandardCharsets.UTF_8));
+            os.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+            os.flush();
+            
             writer.println("商品ID,カテゴリーID,カテゴリー名,商品名,価格,販売状況");
             
             for (Product product : products) {
+                String catName = categoryName(product.getCategoryId());
+                String prodName = product.getName();
                 writer.printf("%d,%d,\"%s\",\"%s\",%d,\"%s\"\n",
                     product.getId(),
                     product.getCategoryId(),
-                    categoryName(product.getCategoryId()).replace("\"", "\"\""),
-                    product.getName().replace("\"", "\"\""),
+                    (catName != null ? catName.replace("\"", "\"\"") : ""),
+                    (prodName != null ? prodName.replace("\"", "\"\"") : ""),
                     product.getPrice(),
                     product.isOnSale() ? "販売中" : "販売停止"
                 );
