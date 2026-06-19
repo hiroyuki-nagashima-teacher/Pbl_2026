@@ -28,4 +28,9 @@ public class Product {
     public void setLastUpdatedAccountId(int lastUpdatedAccountId) { this.lastUpdatedAccountId = lastUpdatedAccountId; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public String getFormattedUpdatedAt() {
+        if (updatedAt == null) return "";
+        return updatedAt.format(java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+    }
 }

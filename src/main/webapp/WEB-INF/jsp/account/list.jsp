@@ -18,7 +18,7 @@
                 <td><c:out value="${a.loginId}" /></td>
                 <td><c:out value="${a.staffName}" /></td>
                 <td><c:out value="${a.manager ? '店長' : '売上登録専用'}" /></td>
-                <td><c:out value="${a.updatedAt}" /></td>
+                <td><c:out value="${a.formattedUpdatedAt}" /></td>
                 <td>
                     <a class="button secondary" href="${pageContext.request.contextPath}/accounts/edit?id=${a.id}">編集</a>
                     <form class="inline-form" method="post" action="${pageContext.request.contextPath}/accounts/delete" onsubmit="return confirm('アカウントを削除しますか？');">

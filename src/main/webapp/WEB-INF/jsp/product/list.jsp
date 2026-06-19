@@ -32,7 +32,7 @@
                     <td><c:out value="${p.categoryName}" /></td>
                     <td><fmt:formatNumber value="${p.price}" pattern="#,##0" />円</td>
                     <td><c:out value="${p.onSale ? '販売中' : '販売停止'}" /></td>
-                    <td><c:out value="${p.updatedAt}" /></td>
+                    <td><c:out value="${p.formattedUpdatedAt}" /></td>
                     <td>
                         <c:if test="${sessionScope.loginAccount.manager}">
                             <a class="button secondary" href="${pageContext.request.contextPath}/products/edit?id=${p.id}">編集</a>

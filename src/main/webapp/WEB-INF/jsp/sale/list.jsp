@@ -102,7 +102,7 @@
                     <td><fmt:formatNumber value="${s.unitPrice}" pattern="#,##0" />円</td>
                     <td><fmt:formatNumber value="${s.totalAmount}" pattern="#,##0" />円</td>
                     <td><c:out value="${s.registeredStaffName}" /></td>
-                    <td><c:out value="${s.updatedAt}" /></td>
+                    <td><c:out value="${s.formattedUpdatedAt}" /></td>
                     <td>
                         <c:if test="${editable}">
                             <a class="button secondary" href="${pageContext.request.contextPath}/sales/edit?id=${s.id}">編集</a>
