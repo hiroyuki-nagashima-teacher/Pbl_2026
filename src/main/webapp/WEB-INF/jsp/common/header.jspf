@@ -21,6 +21,7 @@
             <c:if test="${sessionScope.loginAccount.manager}">
                 <a href="${pageContext.request.contextPath}/accounts">アカウント</a>
             </c:if>
+        </div>
         <div class="nav-account">
             <span class="user"><c:out value="${sessionScope.loginAccount.staffName}" /></span>
             <a href="${pageContext.request.contextPath}/logout">ログアウト</a>

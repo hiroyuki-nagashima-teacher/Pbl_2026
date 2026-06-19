@@ -187,6 +187,7 @@ h1 {
 /* Buttons */
 .actions {
     display: flex;
+    justify-content: flex-end;
     gap: 12px;
     flex-wrap: wrap;
     margin: 20px 0;
