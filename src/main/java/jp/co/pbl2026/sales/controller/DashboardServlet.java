@@ -23,9 +23,15 @@ public class DashboardServlet extends BaseServlet {
         int monthSalesAmount = saleDao.getMonthSalesAmount();
         java.util.List<jp.co.pbl2026.sales.model.Sale> recentSales = saleDao.getRecent7DaysSales();
 
+        java.time.LocalDate today = java.time.LocalDate.now();
+        String todayDate = today.toString();
+        String monthStartDate = today.withDayOfMonth(1).toString();
+
         req.setAttribute("todaySalesAmount", todaySalesAmount);
         req.setAttribute("monthSalesAmount", monthSalesAmount);
         req.setAttribute("recentSales", recentSales);
+        req.setAttribute("todayDate", todayDate);
+        req.setAttribute("monthStartDate", monthStartDate);
 
         forward(req, res, "dashboard.jsp");
     }

@@ -10,20 +10,20 @@
 
     <!-- KPIカードエリア -->
     <div class="dashboard-grid">
-        <div class="kpi-card">
+        <a href="${pageContext.request.contextPath}/sales?dateFrom=${todayDate}&dateTo=${todayDate}" class="kpi-card">
             <div class="kpi-title">本日の売上</div>
             <div class="kpi-value">
                 ¥<fmt:formatNumber value="${todaySalesAmount}" pattern="#,##0" />
             </div>
             <div class="kpi-desc">今日1日の売上合計額</div>
-        </div>
-        <div class="kpi-card">
+        </a>
+        <a href="${pageContext.request.contextPath}/sales?dateFrom=${monthStartDate}&dateTo=${todayDate}" class="kpi-card">
             <div class="kpi-title">今月の売上</div>
             <div class="kpi-value">
                 ¥<fmt:formatNumber value="${monthSalesAmount}" pattern="#,##0" />
             </div>
             <div class="kpi-desc">当月1日からの累計売上額</div>
-        </div>
+        </a>
     </div>
 
     <!-- グラフエリア -->
