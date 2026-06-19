@@ -147,24 +147,40 @@ public class SaleDao {
     }
 
     public List<Sale> getRecent7DaysSales() throws SQLException {
+        java.time.LocalDate today = java.time.LocalDate.now();
+        List<Sale> recentSales = new ArrayList<>();
+        for (int i = 6; i >= 0; i--) {
+            java.time.LocalDate d = today.minusDays(i);
+            Sale s = new Sale();
+            s.setSaleDate(d);
+            s.setUnitPrice(0);
+            s.setQuantity(1);
+            recentSales.add(s);
+        }
+
         String sql = "SELECT sale_date, SUM(quantity * unit_price) AS daily_amount "
                 + "FROM sales_transaction "
-                + "WHERE sale_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) AND deleted = false "
-                + "GROUP BY sale_date "
-                + "ORDER BY sale_date ASC";
-        List<Sale> sales = new ArrayList<>();
+                + "WHERE sale_date >= ? AND sale_date <= ? AND deleted = false "
+                + "GROUP BY sale_date";
+
         try (Connection con = Db.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                Sale s = new Sale();
-                s.setSaleDate(rs.getDate("sale_date").toLocalDate());
-                s.setUnitPrice(rs.getInt("daily_amount"));
-                s.setQuantity(1); // quantity * unitPrice = daily_amount
-                sales.add(s);
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(today.minusDays(6)));
+            ps.setDate(2, Date.valueOf(today));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    java.time.LocalDate sd = rs.getDate("sale_date").toLocalDate();
+                    int amount = rs.getInt("daily_amount");
+                    for (Sale s : recentSales) {
+                        if (s.getSaleDate().equals(sd)) {
+                            s.setUnitPrice(amount);
+                            break;
+                        }
+                    }
+                }
             }
         }
-        return sales;
+        return recentSales;
     }
 
     private void bind(PreparedStatement ps, List<Object> params) throws SQLException {
