@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jp.co.pbl2026.sales.model.CategorySales;
+import jp.co.pbl2026.sales.model.ProductSales;
 import jp.co.pbl2026.sales.model.Sale;
 import jp.co.pbl2026.sales.model.SaleSearchCondition;
 
@@ -314,6 +316,52 @@ public class SaleDao {
             }
         }
         return sales;
+    }
+
+    public List<CategorySales> getCategorySales() throws SQLException {
+        String sql = "SELECT c.category_name, COALESCE(SUM(s.quantity * s.unit_price), 0) AS total_amount "
+                + "FROM sales_transaction s "
+                + "JOIN product_master p ON s.product_id = p.product_id "
+                + "JOIN category_master c ON p.category_id = c.category_id "
+                + "WHERE s.deleted = false "
+                + "GROUP BY c.category_id, c.category_name "
+                + "ORDER BY total_amount DESC";
+        List<CategorySales> list = new ArrayList<>();
+        try (Connection con = Db.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(new CategorySales(
+                    rs.getString("category_name"),
+                    rs.getLong("total_amount")
+                ));
+            }
+        }
+        return list;
+    }
+
+    public List<ProductSales> getTopProductSales(int limit) throws SQLException {
+        String sql = "SELECT p.product_name, COALESCE(SUM(s.quantity * s.unit_price), 0) AS total_amount "
+                + "FROM sales_transaction s "
+                + "JOIN product_master p ON s.product_id = p.product_id "
+                + "WHERE s.deleted = false "
+                + "GROUP BY p.product_id, p.product_name "
+                + "ORDER BY total_amount DESC "
+                + "LIMIT ?";
+        List<ProductSales> list = new ArrayList<>();
+        try (Connection con = Db.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, limit);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new ProductSales(
+                        rs.getString("product_name"),
+                        rs.getLong("total_amount")
+                    ));
+                }
+            }
+        }
+        return list;
     }
 }
 

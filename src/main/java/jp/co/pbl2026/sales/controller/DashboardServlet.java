@@ -22,6 +22,8 @@ public class DashboardServlet extends BaseServlet {
         int todaySalesAmount = saleDao.getTodaySalesAmount();
         int monthSalesAmount = saleDao.getMonthSalesAmount();
         java.util.List<jp.co.pbl2026.sales.model.Sale> recentSales = saleDao.getRecent7DaysSales();
+        java.util.List<jp.co.pbl2026.sales.model.CategorySales> categorySales = saleDao.getCategorySales();
+        java.util.List<jp.co.pbl2026.sales.model.ProductSales> topProducts = saleDao.getTopProductSales(5);
 
         java.time.LocalDate today = java.time.LocalDate.now();
         String todayDate = today.toString();
@@ -30,6 +32,8 @@ public class DashboardServlet extends BaseServlet {
         req.setAttribute("todaySalesAmount", todaySalesAmount);
         req.setAttribute("monthSalesAmount", monthSalesAmount);
         req.setAttribute("recentSales", recentSales);
+        req.setAttribute("categorySales", categorySales);
+        req.setAttribute("topProducts", topProducts);
         req.setAttribute("todayDate", todayDate);
         req.setAttribute("monthStartDate", monthStartDate);
 

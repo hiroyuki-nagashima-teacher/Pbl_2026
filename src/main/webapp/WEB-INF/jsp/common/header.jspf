@@ -5,14 +5,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><c:out value="${pageTitle}" /> | 売上登録システム</title>
+    <title><c:out value="${pageTitle}" /> | StockPilot</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/assets/images/logo.png?v=9">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css?v=9">
 </head>
 <body>
 <c:if test="${not empty sessionScope.loginAccount}">
 <header class="app-header">
-    <div class="app-title">売上登録システム</div>
+    <div class="app-title">
+        <img src="${pageContext.request.contextPath}/assets/images/logo.png?v=9" alt="StockPilot Logo" style="width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(139, 92, 246, 0.4));">
+        StockPilot
+    </div>
     <nav class="nav">
         <div class="nav-main">
             <a href="${pageContext.request.contextPath}/dashboard">ダッシュボード</a>

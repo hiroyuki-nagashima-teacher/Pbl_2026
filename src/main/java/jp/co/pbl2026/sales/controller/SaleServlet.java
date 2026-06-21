@@ -153,13 +153,6 @@ public class SaleServlet extends BaseServlet {
         sale.setRegisteredAccountId(current.getId());
         sale.setLastUpdatedAccountId(current.getId());
         saleDao.insert(sale);
-        
-        // 模擬メール通知
-        try {
-            jp.co.pbl2026.sales.util.MailUtil.sendSaleNotification(sale, current.getStaffName());
-        } catch (Exception e) {
-            System.err.println("模擬メール送信に失敗しました: " + e.getMessage());
-        }
 
         AuthUtil.flash(req, "売上を追加しました。");
         redirect(req, res, "/sales");
