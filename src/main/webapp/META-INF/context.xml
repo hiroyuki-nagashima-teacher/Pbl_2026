@@ -10,7 +10,7 @@
         type="javax.sql.DataSource"
         factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
         driverClassName="com.mysql.cj.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/pbl_2026?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Tokyo"
+        url="jdbc:mysql://localhost:3310/pbl_2026?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Tokyo"
         username="root"
         password="password"
         maxActive="10"

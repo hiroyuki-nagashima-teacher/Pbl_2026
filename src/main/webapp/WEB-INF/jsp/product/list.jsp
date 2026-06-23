@@ -1,6 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
+ 【模範解答解説: 商品一覧画面 (product/list.jsp)】
+ 商品マスタに登録されている商品の一覧を表示し、ソート、ページング、および店長向けのアクション（追加・編集・削除）を提供します。
+ 
+ ■ 設計・実装のポイント:
+ 1. 検索・ページ状態の維持（クエリパラメータの再構築）:
+    Javaコード片（スクリプトリット）を用いて、現在のソート条件やページ番号を除外した「その他の検索パラメータ」を再構築（`baseQuery`）します。
+    これにより、ページングやソート列をクリックした際にも、検索条件が欠落しないURLを生成しています。
+ 2. 権限による操作ボタンの非表示（UI要件）:
+    要件定義「6.1 共通UI方針: 売上登録専用ユーザーには、商品追加・編集・削除ボタンを表示しない」に基づき、
+    `${sessionScope.loginAccount.manager}` で囲んで店長のみにレンダリングします。
+ 3. 誤操作防止の削除確認（エラー・例外要件）:
+    削除ボタンの `onsubmit` にJavaScriptの `confirm` メソッドを組み込み、誤クリックによる即時削除を防いでいます。
+--%>
 <c:set var="pageTitle" value="商品一覧" />
 <%@ include file="../common/header.jspf" %>
 
@@ -26,6 +40,7 @@
 <section class="panel">
     <h1>商品一覧</h1>
     <div class="actions">
+        <%-- 店長ロール（manager = true）のみ、商品追加ボタンを表示 --%>
         <c:if test="${sessionScope.loginAccount.manager}">
             <a class="button" href="${pageContext.request.contextPath}/products/new">商品追加</a>
         </c:if>
@@ -39,6 +54,7 @@
     <div class="table-container">
         <table>
             <thead>
+                <%-- ソート列がクリックされた際、現在のソート順（asc/desc）をトグル（反転）させるためのEL変数設定 --%>
                 <c:set var="nextOrder" value="${order == 'asc' ? 'desc' : 'asc'}" />
                 <tr>
                     <th>
@@ -104,10 +120,12 @@
                     <td><c:out value="${p.id}" /></td>
                     <td><c:out value="${p.name}" /></td>
                     <td><c:out value="${p.categoryName}" /></td>
+                    <%-- 金額のフォーマット表示（3桁カンマ区切り） --%>
                     <td><fmt:formatNumber value="${p.price}" pattern="#,##0" />円</td>
                     <td><c:out value="${p.onSale ? '販売中' : '販売停止'}" /></td>
                     <td><c:out value="${p.formattedUpdatedAt}" /></td>
                     <td>
+                        <%-- 店長（manager = true）のみに編集および削除ボタンを表示（操作導線の非表示） --%>
                         <c:if test="${sessionScope.loginAccount.manager}">
                             <a class="button secondary" href="${pageContext.request.contextPath}/products/edit?id=${p.id}">編集</a>
                             <form class="inline-form" method="post" action="${pageContext.request.contextPath}/products/delete" onsubmit="return confirm('商品を削除しますか？');">
@@ -129,6 +147,7 @@
                 <a class="page-link" href="${pageContext.request.contextPath}/products?${baseQuery}sortBy=${sortBy}&order=${order}&page=${currentPage - 1}">&laquo; 前へ</a>
             </c:if>
             
+            <%-- 総ページ数が大きい場合に備えて、前後2ページと最初・最後以外のページを「...」で省略表示するロジック --%>
             <c:forEach var="i" begin="1" end="${totalPages}">
                 <c:choose>
                     <c:when test="${i == 1 || i == totalPages || (i >= currentPage - 2 && i <= currentPage + 2)}">

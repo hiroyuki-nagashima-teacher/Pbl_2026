@@ -1,8 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-            <c:set var="pageTitle" value="ダッシュボード" />
-            <%@ include file="common/header.jspf" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
+ 【模範解答解説: ダッシュボード表示 (dashboard.jsp)】
+ ログイン成功後に表示される店舗の売上統計画面です。
+ 
+ ■ 設計・実装のポイント:
+ 1. データの可視化（データバインド）:
+    サーバー側（DashboardServlet）で算出した売上金額や推移データを、
+    JSTL `<fmt:formatNumber>` でフォーマット表示するとともに、
+    Chart.js を利用して折れ線グラフおよび円グラフに描画します。
+ 2. JSTLによるJavaScript配列の動的生成:
+    Java の List オブジェクトから JavaScript 配列形式への橋渡しを、
+    JSPのループタグ `<c:forEach>` を用いてカンマ区切りの文字列を生成することで実現しています。
+--%>
+<c:set var="pageTitle" value="ダッシュボード" />
+<%@ include file="common/header.jspf" %>
 
                 <section class="panel">
                     <h1>ダッシュボード</h1>
@@ -104,7 +117,7 @@
                         if (!canvas) return;
                         const ctx = canvas.getContext('2d');
 
-                        // 日付と金額データの作成 (JSTLを用いてJS配列を構築)
+                        // 日付と金額データの作成 (JSTLを用いてJavaのListからJavaScriptの配列を動的生成)
                         const labels = [
                             <c:forEach var="item" items="${recentSales}" varStatus="status">
                                 "${item.saleDate}"<c:if test="${not status.last}">,</c:if>

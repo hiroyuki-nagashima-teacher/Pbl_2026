@@ -1,5 +1,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+ 【模範解答解説: 売上検索フォーム画面 (sale/search.jsp)】
+ 売上データの抽出を行うための各種条件（期間、商品、登録スタッフ名、金額範囲）を入力する画面です。
+ 
+ ■ 設計・実装のポイント:
+ 1. GET送信による検索結果のURL共有化:
+    本フォームは `method="get"` で `/sales` （一覧表示）へパラメータを送信します。
+    検索結果をURLにクエリパラメータ（`?dateFrom=...`）として持たせることで、
+    ページング遷移やブラウザの「戻る」ボタンを押した際にも検索状態が崩れないように設計されています。
+ 2. サーバー側バリデーションエラーの表示:
+    「期間Fromが期間Toより後の日付の場合」や「金額Fromが金額Toより大きい場合」といった入力エラー情報（`errors`）を、
+    該当する入力欄の直下に動的出力してユーザーへの迅速なフィードバックを行います。
+--%>
 <c:set var="pageTitle" value="売上検索" />
 <%@ include file="../common/header.jspf" %>
 <section class="panel">

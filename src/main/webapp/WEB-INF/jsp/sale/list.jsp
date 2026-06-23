@@ -1,6 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
+ 【模範解答解説: 売上一覧画面 (sale/list.jsp)】
+ 登録された売上データの一覧を検索条件とページングを反映して表示し、権限に基づいた操作制御を行います。
+ 
+ ■ 設計・実装のポイント:
+ 1. 権限と所有権に応じた編集・削除制限 (認可制御):
+    要件定義「4.1 権限要件: 売上登録専用ユーザーは、自分が登録した売上のみ編集・削除可能。他ユーザーの売上は閲覧のみ」
+    に対応するため、行ごとに `editable` 変数を定義します：
+    `${sessionScope.loginAccount.manager || sessionScope.loginAccount.id == s.registeredAccountId}`
+    このフラグが `true` の場合のみ、アクションボタン（編集・削除）を描画します。
+ 2. 算出金額の表示:
+    売上トランザクションの設計上、合計金額はDBに格納されていませんが、JSTLとEL式を通じて
+    `${s.totalAmount}`（Java側の `s.getTotalAmount()` メソッド呼び出し）で動的に計算された結果を表示します。
+ 3. 検索条件を引き継いだCSVエクスポート:
+    画面に表示されている検索条件そのままでCSV出力できるよう、`${pageContext.request.queryString}` を用いて
+    現在のリクエストパラメータを引き継いだエクスポートリンクを構築しています。
+--%>
 <c:set var="pageTitle" value="売上一覧" />
 <%@ include file="../common/header.jspf" %>
 
@@ -93,6 +110,7 @@
             </thead>
             <tbody>
             <c:forEach var="s" items="${sales}">
+                <%-- 「店長」または「登録者本人」である場合にのみ編集・削除可能とするフラグを定義 --%>
                 <c:set var="editable" value="${sessionScope.loginAccount.manager || sessionScope.loginAccount.id == s.registeredAccountId}" />
                 <tr>
                     <td><c:out value="${s.saleDate}" /></td>
@@ -102,6 +120,7 @@
                     <td><fmt:formatNumber value="${s.totalAmount}" pattern="#,##0" />円</td>
                     <td><c:out value="${s.registeredStaffName}" /></td>
                     <td>
+                        <%-- 編集・削除の認可チェックが true の場合のみ操作ボタンを出力 --%>
                         <c:if test="${editable}">
                             <a class="button secondary" href="${pageContext.request.contextPath}/sales/edit?id=${s.id}">編集</a>
                             <form class="inline-form" method="post" action="${pageContext.request.contextPath}/sales/delete" onsubmit="return confirm('売上を削除しますか？');">
